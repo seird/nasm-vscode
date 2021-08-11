@@ -1,0 +1,39 @@
+name: build
+
+on:
+  push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install gcovr
+      run: |
+        sudo apt-get -y install gcovr
+    - name: Test
+      run: |
+        gcc --version
+        make test
+
+  build_ubuntu:
+    strategy:
+      matrix:
+        tag: [focal]
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install gcovr
+      run: |
+        sudo apt-get -y install gcovr
+    - name: Build
+      run: |
+        gcc --version
+        make build
+        cp name_release.out name_release_ubuntu_${{ matrix.tag }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: name_release_ubuntu_${{ matrix.tag }}
+        path: name_release_ubuntu_${{ matrix.tag }}
