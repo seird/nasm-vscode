@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install gcovr
+    - name: Install gcovr and nasm
       run: |
-        sudo apt-get -y install gcovr
+        sudo apt-get -y install gcovr nasm
     - name: Test
       run: |
         gcc --version
@@ -24,9 +24,9 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
-    - name: Install gcovr
+    - name: Install gcovr and nasm
       run: |
-        sudo apt-get -y install gcovr
+        sudo apt-get -y install gcovr nasm
     - name: Build
       run: |
         gcc --version
